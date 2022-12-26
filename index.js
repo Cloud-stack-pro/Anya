@@ -86,6 +86,7 @@ client.on( Events.MessageCreate, async message => {
             await message.delete()
           }, 3000)
         });
+        queue.tracks.length == 0 && queue.destroy();
       }
     } else {
       await message.reply("[ERROR] You can't use it from outside the voice room.").then( msg => {
