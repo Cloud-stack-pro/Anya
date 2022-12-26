@@ -58,6 +58,7 @@ client.on( Events.MessageCreate, async message => {
           await message.delete()
         }, 3000)
       });
+      return !0;
     }
     if ( userVoiceChannel && !queue.connection ) {
       await queue.connect( userVoiceChannel );
