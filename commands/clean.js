@@ -13,12 +13,12 @@ module.exports = {
     const messages = await interaction.channel.messages.fetch();
     let cm;
     if ( existsGuild ) {
-      cm = messages.filter( i => i. id != existsGuild.message && i.id != interaction.id );
+      cm = messages.filter( i => i.id != existsGuild.message && i.id != reply.id );
       await interaction.channel.bulkDelete(cm);
     } else {
-      cm = messages.filter( i => i.id != interaction.id );
+      cm = messages.filter( i => i.id != reply.id );
       await interaction.channel.bulkDelete(cm);
     }
-    await interaction.editReply('Cleaned successful!').then( e => setTimeout(()=>{e.delete()}, 3000) )
+    await reply.editReply('Cleaned successful!').then( e => setTimeout(()=>{e.delete()}, 3000) )
   }
 };
