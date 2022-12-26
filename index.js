@@ -59,7 +59,6 @@ client.on( Events.MessageCreate, async message => {
         }, 3000)
       });
     }
-    
     if ( userVoiceChannel && !queue.connection ) {
       await queue.connect( userVoiceChannel );
     }
