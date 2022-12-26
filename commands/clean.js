@@ -7,6 +7,7 @@ module.exports = {
     .setDescription('Remove all message in channel.'),
   async run(interaction) {
     const reply = await interaction.reply({
+      content: "[INFO] Cleaning messages.",
       fetchReply: true
     });
     const existsGuild = sql.query(guilds).find(i => i.guild == interaction.guild.id);
