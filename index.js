@@ -43,9 +43,9 @@ client.on( Events.MessageCreate, async message => {
   const isURL = isHttpsUri( message.content );
   const userVoiceChannel = message.member.voice?.channel;
   if ( GuildConfig && GuildConfig.channel == message.channel.id ) {
-    const msg = await message.channel.messages.fetch( GuildConfig.message );
+    const msg = await message.channel.messages.fetch();
     const queue = player.createQueue( message.guild, {
-      metadata: msg,
+      metadata: msg.get( GuildConfig.message ),
       spotifyBridge: true,
       initialVolume: 100,
       leaveOnEnd: true
@@ -63,14 +63,13 @@ client.on( Events.MessageCreate, async message => {
     if ( userVoiceChannel && !queue.connection ) {
       await queue.connect( userVoiceChannel );
     }
-    
     if ( userVoiceChannel && queue.connection && ( queue.connection.channel.id == userVoiceChannel.id ) ) {
       const reply = isURL ? await message.reply(`[INFO] Now loading "${message.content}"`) : await message.reply(`[INFO] Searching for "${message.content}"`);
       const song = await player.search( message.content, {
         requestedBy: message.author,
         searchEngine: QueryType.AUTO
       });
-      if ( song ) {
+      if ( song.tracks.length > 0 ) {
         await reply.edit("[INFO] Successfully added to track.").then( msg => {
           setTimeout( async () => {
             await msg.delete();
@@ -86,7 +85,7 @@ client.on( Events.MessageCreate, async message => {
             await message.delete()
           }, 3000)
         });
-        queue.tracks.length == 0 && queue.destroy();
+        queue.previousTracks.length == 0 && queue.destroy();
       }
     } else {
       await message.reply("[ERROR] You can't use it from outside the voice room.").then( msg => {
