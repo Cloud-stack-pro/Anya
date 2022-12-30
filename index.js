@@ -50,7 +50,6 @@ client.on( Events.MessageCreate, async message => {
       initialVolume: 100,
       leaveOnEnd: true
     });
-    
     if ( !userVoiceChannel ) {
       await message.reply("[ERROR] You are not in the voice room.").then( msg => {
         setTimeout( async () => {
@@ -85,7 +84,7 @@ client.on( Events.MessageCreate, async message => {
             await message.delete()
           }, 3000)
         });
-        queue.previousTracks.length == 0 && queue.destroy();
+        !queue.playing && queue.destroy();
       }
     } else {
       await message.reply("[ERROR] You can't use it from outside the voice room.").then( msg => {
